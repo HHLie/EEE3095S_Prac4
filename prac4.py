@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 
+#placeholder import for now
+import time
+
 import busio
 import digitalio
 import board
@@ -34,3 +37,19 @@ tem = round((ADC.voltage-0.5)/0.01)
 print("Raw ADC Value: ", ADC.value)
 print("ADC Voltage: " + str(ADC.voltage) + "V")
 print("temp: "  + str(tem))
+
+#temp runtime
+runtime = 0
+
+def PrintTable():
+  while True:
+	  print("Runtime   Temp Reading   Temp      Light Reading")
+
+	  print(str(runtime).ljust(9,' '), 	#runtime
+	  str(ADC.value).ljust(14,' '), 		#temp adc
+	  (str(t)+"C").ljust(9,' '), 		    #temp C
+	  LDR.value) 				                #light resistor reading
+
+    #remove later
+	  time.sleep(1)
+	  runtime+=1
