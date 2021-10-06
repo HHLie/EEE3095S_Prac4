@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
-#test
+
 #placeholder import for now
 import time
 
@@ -29,27 +29,24 @@ def ConvertTemp(data):
 
   temp = data - 0.5
   temp = temp /0.01
-  return temp
+  return round(temp,2)
 
-t = round(ConvertTemp(ADC.voltage),2)
-tem = round(((ADC.voltage-0.5)/0.01),2)
 
-print("Raw ADC Value: ", ADC.value)
-print("ADC Voltage: " + str(ADC.voltage) + "V")
-print("temp: "  + str(tem))
+#print("Raw ADC Value: ", ADC.value)
+#print("ADC Voltage: " + str(ADC.voltage) + "V")
 
 #temp runtime
 runtime = 0
 
 
 def PrintTable():
-  global ADC,LDR,runtime,t
+  global ADC,LDR,runtime
   while True:
 	  print("Runtime   Temp Reading   Temp      Light Reading")
 
 	  print(str(runtime).ljust(9,' '), 	#runtime
 	  str(ADC.value).ljust(14,' '), 		#temp adc
-	  (str(t)+"C").ljust(9,' '), 		    #temp C
+	  (str(ConvertTemp(ADC.voltage))+"C").ljust(9,' '), 		    #temp C
 	  LDR.value) 				                #light resistor reading
     
     #remove later
