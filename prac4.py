@@ -41,6 +41,8 @@ print("temp: "  + str(tem))
 #temp runtime
 runtime = 0
 
+#do this
+
 def PrintTable():
   while True:
 	  print("Runtime   Temp Reading   Temp      Light Reading")
@@ -53,3 +55,6 @@ def PrintTable():
     #remove later
 	  time.sleep(1)
 	  runtime+=1
+
+if __name__ == "__main__":
+  PrintTable()
