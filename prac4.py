@@ -17,10 +17,20 @@ cs = digitalio.DigitalInOut(board.D5)
 mcp = MCP.MCP3008(spi, cs)
 
 # create an analog input channel on pin 0
-chan = AnalogIn(mcp, MCP.P0)
+ADC = AnalogIn(mcp, MCP.P1)
 
 # create an analog input channel on pin 1
-chan_2 = AnalogIn(mcp, MCP.P1)
+LDR = AnalogIn(mcp, MCP.P2)
 
-print("Raw ADC Value: ", chan.value)
-print("ADC Voltage: " + str(chan.voltage) + "V")
+def ConvertTemp(data):
+
+  temp = data - 0.5
+  temp = temp /0.01
+  return temp
+
+t = ConvertTemp(ADC.voltage)
+tem = round((ADC.voltage-0.5)/0.01)
+
+print("Raw ADC Value: ", ADC.value)
+print("ADC Voltage: " + str(ADC.voltage) + "V")
+print("temp: "  + str(tem))
