@@ -41,9 +41,9 @@ print("temp: "  + str(tem))
 #temp runtime
 runtime = 0
 
-#do this
 
 def PrintTable():
+  global ADC,LDR,runtime,t
   while True:
 	  print("Runtime   Temp Reading   Temp      Light Reading")
 
