@@ -31,6 +31,8 @@ button = digitalio.DigitalInOut(board.D26)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
+
+
 def ConvertTemp(data):
 
   temp = data - 0.5
@@ -40,7 +42,7 @@ def ConvertTemp(data):
 
 
 #temp runtime
-runtime = 0
+runtime = 0 #defunct
 interval = 10
 
 def cycle():
@@ -58,15 +60,17 @@ def print_time_thread():
   thread = threading.Timer(interval, print_time_thread)
   thread.daemon = True  # Daemon threads exit when the program does
   thread.start()
-  print((str(runtime)+ "s").ljust(9,' '), 	#runtime
+  print((str(round(time.time()-starttime,0))+ "s").ljust(9,' '), 	#runtime
 	str(ADC.value).ljust(14,' '), 		#temp adc
 	(str(ConvertTemp(ADC.voltage))+"C").ljust(9,' '), 		    #temp C
 	LDR.value) 				                #light resistor reading
-  runtime += interval
+  runtime += interval #defunct, counter bad
 
 if __name__ == "__main__":
   print("Runtime   Temp Reading   Temp      Light Reading")
+  starttime = time.time()
   print_time_thread()
+  
   while True:
     if button.value == False:
       time.sleep(0.25)
