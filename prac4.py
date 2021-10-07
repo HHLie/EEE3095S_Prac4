@@ -51,6 +51,7 @@ def cycle():
     interval = 1
   else:
     interval = 10
+  return interval
 
 def print_time_thread():
   global ADC,LDR,runtime,interval
@@ -69,5 +70,5 @@ if __name__ == "__main__":
   while True:
     if button.value == False:
       time.sleep(0.25)
-      cycle()
+      print("Changing intervals to: " + str(cycle()) + "s")
       
