@@ -38,61 +38,36 @@ def ConvertTemp(data):
   return round(temp,2)
 
 
-#print("Raw ADC Value: ", ADC.value)
-#print("ADC Voltage: " + str(ADC.voltage) + "V")
 
 #temp runtime
 runtime = 0
+interval = 10
 
-class MyThread(threading.Thread):
-  def __init__(self):
-    self.runtime = 10
-    self.lock = threading.RLock()
-    super(MyThread, self).__init__()
-  
-  def set_time(self):
-    if self.runtime == 10:
-      self.runtime = 5
-    elif self.runtime == 5:
-      self.runtime = 1
-    else:
-      self.runtime = 10
-  
-  def run(self):
-    while True:
-      print(str(self.runtime).ljust(9,' '), 	#runtime
-      str(ADC.value).ljust(14,' '), 		#temp adc
-      (str(ConvertTemp(ADC.voltage))+"C").ljust(9,' '), 		    #temp C
-      LDR.value) 				                #light resistor reading
-      
-      #remove later
-      time.sleep(self.runtime)
+def cycle():
+  global interval
+  if interval == 10:
+    interval = 5
+  elif interval == 5:
+    interval = 1
+  else:
+    interval = 10
 
-
-
-def PrintTable():
-  global ADC,LDR,runtime
-  while True:
-	  print("Runtime   Temp Reading   Temp      Light Reading")
-
-	  print(str(runtime).ljust(9,' '), 	#runtime
-	  str(ADC.value).ljust(14,' '), 		#temp adc
-	  (str(ConvertTemp(ADC.voltage))+"C").ljust(9,' '), 		    #temp C
-	  LDR.value) 				                #light resistor reading
-    
-    #remove later
-	  time.sleep(1)
-	  runtime+=1
-
-
+def print_time_thread():
+  global ADC,LDR,runtime,interval
+  thread = threading.Timer(interval, print_time_thread)
+  thread.daemon = True  # Daemon threads exit when the program does
+  thread.start()
+  print((str(runtime)+ "s").ljust(9,' '), 	#runtime
+	str(ADC.value).ljust(14,' '), 		#temp adc
+	(str(ConvertTemp(ADC.voltage))+"C").ljust(9,' '), 		    #temp C
+	LDR.value) 				                #light resistor reading
+  runtime += interval
 
 if __name__ == "__main__":
   print("Runtime   Temp Reading   Temp      Light Reading")
-  interval = 10
-  blink_thread = MyThread()
-  blink_thread.start()
+  print_time_thread()
   while True:
     if button.value == False:
       time.sleep(0.25)
-      blink_thread.set_time()
+      cycle()
       
